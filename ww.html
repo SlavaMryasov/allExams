@@ -1,10 +1,11 @@
 <script>
-    const myFunction = (a, b = 3) => a + b;
 
-    const result = myFunction(346, undefined) % 2
+    const numbers = [56, 76, 49, 61]
+    const mapFunction = (el, index) => el * index
+    const mappedArray = numbers.map(mapFunction)
 
-    const winner = result ? "Artur" : "Maxim"
-
-    console.log(winner)
+    const myNumber = mappedArray[0] && mappedArray[mappedArray.length - 1]
+    console.log(myNumber)
+    const bigCount = 1 + myNumber
 
 </script>
