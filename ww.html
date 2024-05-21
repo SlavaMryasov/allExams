@@ -1,11 +1,11 @@
 <script>
-
-    const numbers = [56, 76, 49, 61]
-    const mapFunction = (el, index) => el * index
-    const mappedArray = numbers.map(mapFunction)
-
-    const myNumber = mappedArray[0] && mappedArray[mappedArray.length - 1]
-    console.log(myNumber)
-    const bigCount = 1 + myNumber
-
+    const students = [
+        { name: "Bob" },
+        { name: "Alex" },
+        { name: "Donald" }
+    ]
+    const filteredStudents = students.filter(s => s.name !== "Kate")
+    const lengthDiff = students.length - filteredStudents.length
+    const newValue = (lengthDiff && 16.19) || (61.89 && 48.71)
+    console.log(newValue)
 </script>
