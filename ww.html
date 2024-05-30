@@ -1,11 +1,15 @@
 <script>
-    const students = [
-        { name: "Bob" },
-        { name: "Alex" },
-        { name: "Donald" }
-    ]
-    const filteredStudents = students.filter(s => s.name !== "Kate")
-    const lengthDiff = students.length - filteredStudents.length
-    const newValue = (lengthDiff && 16.19) || (61.89 && 48.71)
-    console.log(newValue)
+
+    const compassion = {
+        name: "Vladimir",
+        age: 42,
+        technologies: ["HTML", "", "REACT"]
+    }
+
+    const [movement = "FOO", cycle = "BOO", morality = "DOO"] = compassion.technologies
+
+    if (!cycle) {
+        alert("HEY")
+    }
+
 </script>
