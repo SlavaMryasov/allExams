@@ -1,15 +1,63 @@
 <script>
 
-    const compassion = {
-        name: "Vladimir",
-        age: 42,
-        technologies: ["HTML", "", "REACT"]
-    }
+    const numbers = [1, 45, 66, 2, 4, 6, -2, -10, -100, 100, 199]
+    // let max = numbers[0]
+    // for (let i = 1; i < numbers.length; i++) {
+    //     if (numbers[i] > max) {
+    //         max = numbers[i]
+    //     }
+    // }
+    // console.log(max)
 
-    const [movement = "FOO", cycle = "BOO", morality = "DOO"] = compassion.technologies
+    // const max = Math.max(...numbers)
+    // console.log(max)
 
-    if (!cycle) {
-        alert("HEY")
+    // const max2 = Math.max.apply(null, numbers)
+    // console.log(max2)
+
+    // const arr = Array.from({ length: 10000000 }, (item, i) => i + 1)
+    // const max = Math.max(...arr)
+    // console.log(max)
+
+    // const getFactorial = (m) => {
+    //     let result = 1
+    //     for (let i = 1; i <= m; i++) {
+    //         result = result * i
+    //     }
+    //     return result
+    // }
+    // console.log(getFactorial(5))
+
+
+    // const getFactorial = (m) => {
+    //     debugger
+    //     if (m === 0) {
+    //         return 1
+    //     }
+    //     return m * getFactorial(m - 1)
+    // }
+    // console.log(getFactorial(5))
+
+
+    // 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144,
+
+    function fib(n) {
+        let fi = 1
+        let preFi = 0
+
+        for (let i = 1; i < n; i++) {
+            console.log(fi, preFi)
+            fi = fi + preFi
+            preFi = fi - preFi
+        }
+        return fi
     }
+    console.log(fib(7))
+
+    // function fib(n) {
+    //     return n <= 1 ? n : fib(n - 1) + fib(n - 2);
+    // }
+
+    // console.log(fib(8))
 
 </script>

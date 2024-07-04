@@ -11079,7 +11079,7 @@
 
 
 
-// //затупок
+// // //затупок
 // import ReactDOM from "react-dom/client";
 // import { ThunkAction, ThunkDispatch } from "redux-thunk";
 // import { Provider, TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
@@ -11179,11 +11179,22 @@
 //         dispatch(activeColumn.sortBy ? getUsersTC(activeColumn) : getUsersTC());
 //     }, [activeColumn]);
 
-//     const sortHandler = (sortBy: string) => {
-//         setActiveColumn({sortBy, sortDirection: activeColumn.sortDirection === 'asc'? 'desc': 'asc'})
-//         // ❗❗❗ XXX ❗❗❗
-//     };
+//     // const sortHandler = (sortBy: string) => {
+//     //     setActiveColumn({ sortBy, sortDirection: activeColumn.sortDirection === 'asc' ? 'desc' : 'asc' })
+//     //     // ❗❗❗ XXX ❗❗❗
+//     // };
 
+//     const sortHandler = (sortBy: string) => {
+//         setActiveColumn((prev) => {
+//             const isSameColumn = prev.sortBy === sortBy;
+//             const sortDirection = isSameColumn
+//                 ? prev.sortDirection === "asc"
+//                     ? "desc"
+//                     : "asc"
+//                 : "asc";
+//             return { sortBy, sortDirection };
+//         });
+//     };
 //     return (
 //         <div>
 //             <h1>👪 Список пользователей</h1>
@@ -11240,7 +11251,7 @@
 // // При последующих нажатиях сортировка не должна сбрасываться, а должна продолжать переключаться.
 // // ❗ сортировка пользователей происходит на сервере, т.е. sort использовать не нужно
 
-// // 🖥 Пример ответа: sort(a, b)        
+// // 🖥 Пример ответа: sort(a, b)
 
 
 
@@ -11274,7 +11285,7 @@
 // // Если указали правильно один вариант (1),
 // // а нужно было указать два варианта (1 и 2), то ответ в данном случае будет засчитан как неправильный
 
-// // 🖥 Пример ответа: 1  // 2/3 не верно
+// // 🖥 Пример ответа: 1  // 4
 
 
 
@@ -11396,7 +11407,6 @@
 //     }
 // };
 
-// // Store
 // const rootReducer = combineReducers({ app: appReducer });
 
 // const store = configureStore({ reducer: rootReducer });
@@ -11411,9 +11421,8 @@
 // type ActionsType = ReturnType<typeof setPageAC> | ReturnType<typeof setUsersAC>;
 
 // const getUsers = (): AppThunk => (dispatch, getState) => {
-//     const page = 1;
-//     // getState().app.page
-//     api.getUsers(getState().app.page).then((res) => dispatch(setUsersAC(res.data.items))); // не успел отправить
+//     const page = getState().app.page;
+//     api.getUsers(page).then((res) => dispatch(setUsersAC(res.data.items))); // не успел отправить
 // };
 
 // // Components
@@ -11488,7 +11497,187 @@
 // const api = {
 //     getUsers() {
 //         // return instance.get('users?pageSize=3&pageNumber=2')
-//         return instance.get('users', { params: { pageSize: 3, pageNumber: 2 } }) // разобрать и переписать
+//         return instance.get('users', {params: {pageSize: 3, pageNumber:2}})
+//     },
+// }
+
+// // App
+// export const App = () => {
+
+//     const [users, setUsers] = useState<UserType[]>([])
+
+//     useEffect(() => {
+//         api.getUsers()
+//             .then((res) => {
+//                 setUsers(res.data.items)
+//             })
+//     }, [])
+
+
+//     return (
+//         <>
+//             <h1>👪 Список пользователей</h1>
+//             {
+//                 users.map(u => {
+//                     return <div style={{ display: 'flex', gap: '10px' }} key={u.id}>
+//                         <p><b>name</b>: {u.name}</p>
+//                         <p><b>age</b>: {u.age}</p>
+//                     </div>
+//                 })
+//             }
+//         </>
+//     )
+// }
+
+
+// const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+// root.render(<App />)
+
+// // 📜 Описание:
+// // На странице отображен список юзеров из 3-человек.
+// // Подгрузились именно эти пользователи не случайно, а из-за query параметров указанных в запросе.
+// // Ваша задача переписать строку с запросом таким образом, чтобы получить аналогичный результат (все тех же юзеров),
+// // при этом запрещено в ответе использовать символы вопроса и амперсанда.
+// // В качестве ответа укажите полностью исправленную строку коду (переносы разрешены)
+
+// import axios from 'axios'
+// import React, { useEffect, useState } from 'react'
+// import ReactDOM from 'react-dom/client'
+// import { useParams } from 'react-router-dom';
+
+// type UserType = {
+//     id: string;
+//     name: string;
+//     age: number;
+// }
+
+// // API
+// const instance = axios.create({ baseURL: 'https://exams-frontend.kimitsu.it-incubator.io/api/' })
+
+// const api = {
+//     getUsers() {
+//         // return instance.get('users?pageSize=3&pageNumber=2')
+//         return instance.get('users', {params: {pageSize: 3, pageNumber:2}})
+//     },
+// }
+
+// // App
+// export const App = () => {
+
+//     const [users, setUsers] = useState<UserType[]>([])
+
+//     useEffect(() => {
+//         api.getUsers()
+//             .then((res) => {
+//                 setUsers(res.data.items)
+//             })
+//     }, [])
+
+
+//     return (
+//         <>
+//             <h1>👪 Список пользователей</h1>
+//             {
+//                 users.map(u => {
+//                     return <div style={{ display: 'flex', gap: '10px' }} key={u.id}>
+//                         <p><b>name</b>: {u.name}</p>
+//                         <p><b>age</b>: {u.age}</p>
+//                     </div>
+//                 })
+//             }
+//         </>
+//     )
+// }
+
+
+// const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+// root.render(<App />)
+
+// // 📜 Описание:
+// // На странице отображен список юзеров из 3-человек.
+// // Подгрузились именно эти пользователи не случайно, а из-за query параметров указанных в запросе.
+// // Ваша задача переписать строку с запросом таким образом, чтобы получить аналогичный результат (все тех же юзеров),
+// // при этом запрещено в ответе использовать символы вопроса и амперсанда.
+// // В качестве ответа укажите полностью исправленную строку коду (переносы разрешены)
+
+// import axios from 'axios'
+// import React, { useEffect, useState } from 'react'
+// import ReactDOM from 'react-dom/client'
+// import { useParams } from 'react-router-dom';
+
+// type UserType = {
+//     id: string;
+//     name: string;
+//     age: number;
+// }
+
+// // API
+// const instance = axios.create({ baseURL: 'https://exams-frontend.kimitsu.it-incubator.io/api/' })
+
+// const api = {
+//     getUsers() {
+//         // return instance.get('users?pageSize=3&pageNumber=2')
+//         return instance.get('users', {params: {pageSize: 3, pageNumber:2}})
+//     },
+// }
+
+// // App
+// export const App = () => {
+
+//     const [users, setUsers] = useState<UserType[]>([])
+
+//     useEffect(() => {
+//         api.getUsers()
+//             .then((res) => {
+//                 setUsers(res.data.items)
+//             })
+//     }, [])
+
+
+//     return (
+//         <>
+//             <h1>👪 Список пользователей</h1>
+//             {
+//                 users.map(u => {
+//                     return <div style={{ display: 'flex', gap: '10px' }} key={u.id}>
+//                         <p><b>name</b>: {u.name}</p>
+//                         <p><b>age</b>: {u.age}</p>
+//                     </div>
+//                 })
+//             }
+//         </>
+//     )
+// }
+
+
+// const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+// root.render(<App />)
+
+// // 📜 Описание:
+// // На странице отображен список юзеров из 3-человек.
+// // Подгрузились именно эти пользователи не случайно, а из-за query параметров указанных в запросе.
+// // Ваша задача переписать строку с запросом таким образом, чтобы получить аналогичный результат (все тех же юзеров),
+// // при этом запрещено в ответе использовать символы вопроса и амперсанда.
+// // В качестве ответа укажите полностью исправленную строку коду (переносы разрешены)
+
+// import axios from 'axios'
+// import React, { useEffect, useState } from 'react'
+// import ReactDOM from 'react-dom/client'
+// import { useParams } from 'react-router-dom';
+
+// type UserType = {
+//     id: string;
+//     name: string;
+//     age: number;
+// }
+
+// // API
+// const instance = axios.create({ baseURL: 'https://exams-frontend.kimitsu.it-incubator.io/api/' })
+
+// const api = {
+//     getUsers() {
+//         // return instance.get('users?pageSize=3&pageNumber=2')
+//         return instance.get('users', { params: { pageSize: 3, pageNumber: 2 } })
 //     },
 // }
 
@@ -11533,7 +11722,7 @@
 
 
 // // 🖥 Пример ответа: return instance.get('users=pageSize=3=pageNumber=2')
-
+// // return instance.get('users', { params: { pageSize: 3, pageNumber: 2 } }) // разобрать и переписать
 
 
 
@@ -11655,6 +11844,9 @@
 // // а нужно было указать два варианта (1 и 2), то ответ в данном случае будет засчитан как неправильный
 
 // // 🖥 Пример ответа: 1 // 1 2 не верно
+// // git fetch просто подтягивает изменения, а git pull еще и содржит в себе git merge
+// // git fetch + git merge = git pull
+// //4
 
 
 
@@ -11725,7 +11917,7 @@
 //     const [timerId, setTimerId] = useState(0);
 
 //     useEffect(() => {
-        
+//         clearTimeout(timerId)
 //         setTimerId(
 //             +setTimeout(() => {
 //                 dispatch(getFriends(name));
@@ -11769,3 +11961,84 @@
 // // 🖥 Пример ответа: value={name(1500)}
 
 
+
+
+
+import ReactDOM from "react-dom/client";
+import React, { useEffect } from "react";
+import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import { Provider, TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+
+// Reducer
+const initState = { find: "", words: [] as string[] };
+type InitStateType = typeof initState;
+
+const appReducer = (state: InitStateType = initState, action: ActionsType): InitStateType => {
+    switch (action.type) {
+        case "SET_FIND":
+            return { ...state, find: action.find };
+        case "SET_WORDS":
+            return { ...state, words: action.words };
+        default:
+            return state;
+    }
+};
+
+// Store
+const rootReducer = combineReducers({ app: appReducer });
+
+const store = configureStore({ reducer: rootReducer });
+type RootState = ReturnType<typeof store.getState>;
+type AppDispatch = ThunkDispatch<RootState, unknown, ActionsType>;
+type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, ActionsType>;
+const useAppDispatch = () => useDispatch<AppDispatch>();
+const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+const setFind = (find: string) => ({ type: "SET_FIND", find }) as const;
+const setWords = (words: string[]) => ({ type: "SET_WORDS", words }) as const;
+type ActionsType = ReturnType<typeof setFind> | ReturnType<typeof setWords>;
+
+// Components
+const defWords = ["a", "ab", "abc", "b", "bc", "c", "d", "ac", "bcd", "cd", "abcd", "bd"];
+
+export const App = () => {
+    const find = useAppSelector((state) => state.app.find);
+    const words = useAppSelector((state) => state.app.words);
+
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(setWords(defWords));
+    }, []);
+
+    const mapped = words
+        .filter((w: string) => new RegExp(find, "gi").test(w))
+        .map((w: string, i: number) => <div key={i}>{w}</div>);
+
+    const onChangeHandler = (value: string) => {
+        dispatch(setFind(value))
+    };
+
+    return (
+        <div>
+            <input value={find} onChange={(e) => onChangeHandler(e.target.value)} />
+            {mapped}
+        </div>
+    );
+};
+
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+root.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+);
+
+// 📜 Описание:
+// На экране отображен массив слов.
+// Ваша задача починить фильтрацию:
+// вводите символы в input и сразу видите как фильтруются данные.
+// В качестве ответа укажите исправленную версию строки.
+//
+// 🖥 Пример ответа: dispatch(setFind(defWords))
