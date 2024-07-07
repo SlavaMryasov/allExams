@@ -1,6 +1,6 @@
 <script>
 
-    const numbers = [1, 45, 66, 2, 4, 6, -2, -10, -100, 100, 199]
+    // const numbers = [1, 45, 66, 2, 4, 6, -2, -10, -100, 100, 199]
     // let max = numbers[0]
     // for (let i = 1; i < numbers.length; i++) {
     //     if (numbers[i] > max) {
@@ -41,23 +41,108 @@
 
     // 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144,
 
-    function fib(n) {
-        let fi = 1
-        let preFi = 0
+    // function fib(n) {
+    //     let fi = 1
+    //     let preFi = 0
 
-        for (let i = 1; i < n; i++) {
-            console.log(fi, preFi)
-            fi = fi + preFi
-            preFi = fi - preFi
-        }
-        return fi
-    }
-    console.log(fib(7))
+    //     for (let i = 1; i < n; i++) {
+    //         console.log(fi, preFi)
+    //         fi = fi + preFi
+    //         preFi = fi - preFi
+    //     }
+    //     return fi
+    // }
+    // console.log(fib(7))
 
     // function fib(n) {
     //     return n <= 1 ? n : fib(n - 1) + fib(n - 2);
     // }
 
     // console.log(fib(8))
+
+
+    // const numbers = [1, 45, 66, 2, 4, 6, -2, -10, -100, 100, 199]
+    // // 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144,
+
+    // const getSumTo = (n) => {
+    //     if (n > 0) {
+    //         return n + getSumTo(n - 1)
+    //     }
+    //     else {
+    //         return n
+    //     }
+
+    // }
+    // console.log(getSumTo(5))
+
+    //
+
+
+    // const car = {
+    //     color: 'red',
+    //     start() {
+    //         console.log(`The ${this.color} car has started.`);
+    //     }
+    // };
+
+    // const yellowCar = { color: 'yellow' }
+    // const greenCar = { color: 'green' }
+    // const greyCar = { color: 'gray' }
+
+    // car.start.bind(yellowCar)()
+    // car.start.bind(greenCar)()
+    // car.start.bind(greyCar)()
+
+
+
+    // const calculator = {
+    //     name: 'Default',
+    //     add(a, b) {
+    //         console.log(`${this.name} calculates: ${a} + ${b} = ${a + b}`);
+    //     }
+    // };
+
+    // const calculator2 = { name: 'myCalc2' }
+    // const calculator3 = { name: 'myCalc3' }
+    // const calculator4 = { name: 'myCalc4' }
+
+    // calculator.add.bind(calculator2, 2, 2)()
+    // calculator.add.bind(calculator3, 3, 3)()
+    // calculator.add.bind(calculator4, 5, 4)()
+
+
+    // const books = [
+    //     { title: '1984', author: 'George Orwell' },
+    //     { title: 'To Kill a Mockingbird', author: 'Harper Lee' },
+    //     { title: 'Pride and Prejudice', author: 'Jane Austen' },
+    //     { title: 'The Great Gatsby', author: 'F. Scott Fitzgerald' }
+    // ];
+
+    // const newBooks = books.map(el => el.title).sort()
+
+
+
+    // const students = [
+    //     { name: 'Alice', age: 20, grades: [85, 90, 78] },
+    //     { name: 'Bob', age: 22, grades: [88, 92, 80] },
+    //     { name: 'Charlie', age: 21, grades: [75, 85, 80] }
+    // ];
+
+    // const studentsWithAverageMark = students.map(s => s = { ...s, averageGrade: (s.grades.reduce((acc, g) => acc += g)) / s.grades.length })
+    // console.log(studentsWithAverageMark)
+
+
+    function counterCounter() {
+        let count = 0;
+        return function () {
+            // this.count++
+            return count++
+        }
+    }
+
+    const c = counterCounter()
+    console.log(c())
+    console.log(c())
+    console.log(c())
 
 </script>
